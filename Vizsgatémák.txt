@@ -1,0 +1,61 @@
+60p 35 kérdés
+Feladat típusok:
+    felelt választós (1 krédés, 4 váalsz lehetőség, 1 jó válasz)
+    ugyanez csak több jó válasz lehetőség
+    párosító
+    Kód kiegészítás
+
+    50% felett kell teljesíteni a sikeres vizsgához.
+    Azaz 35-ből 16 jó választ kell adni
+
+Témák:
+    Alapok - 5 kérdés
+        interpreterek, kompiler, python basics
+        változók: int, float, text, bool
+        commentek, print, input
+        numerikus rendszer bit, 2számjegy, 4számjegy, stb
+        operátok számokkal: (+, -, *, /, %, **, //)
+        operátorok működése stringgel: (*, +)
+        hozzáadásos operátorok: (-=, +=, *=, /=, %=)
+
+    Adattípusok - 6 kérdés:
+        bites operátrok (~, &, ^, \, <<, >>)
+        logikai operátorok (not, and, or)
+        logikai kifejezések
+        relációs operátorok (==, !=, >, >=, <, <=)
+        lebegő pontos számok pontossága
+        input(), int(), print(), float(), str(), len()
+        print formázás, end=, step=
+        types
+        stringek használata
+
+    Kontrolok - 6 kérdés:
+        if, if-else, if-elif, if-elif-else
+        beépitett kifejezések
+        pass
+        loop (while, for, in, range)
+        iterálás
+        for-else, while-else            <- Ezt majd később
+        beágyazott cklusok
+        ciklus irányítás (break, continue)
+
+    Adatok - pl.: lista, tuple, dictionary - 7 kérdés:
+        simpla lista, indexelés, len(), slicing
+        append(), insert(), index(), len(), sorted(), del, for loop, in, not in
+        matrixok
+        tuple : indexelés, slicing, creating
+        tuple és lista külömbésg és egyezés
+        dictionary készítés, indexelés, kulcs hozzáadás/törlés, módosítás
+        dictinary key(), items(), values()
+        string: \escape karakter, szimbólummok, több soros stringek, alap függvények
+
+    Függvények, exception-ök - 6 kérdés
+        függvény létrehozás és hívás
+        return, yield
+        none szó
+        rekurzió
+        paraméter vs argument
+        ezek működése
+        alap paraméter értékek
+        list() command
+        try-except
