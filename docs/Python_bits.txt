@@ -1,0 +1,709 @@
+
+# 1. Bitek, bináris számrendszer – gyors alap
+
+A számítógép *mindent* bitekkel tárol.
+Egy **bit** csak két értéket vehet fel: `0` vagy `1`.
+
+## 1.1. Bináris (2-es) számrendszer
+
+* 10-es számrendszerben:
+
+  * helyiértékek: 1, 10, 100, 1000, …
+
+* 2-es számrendszerben:
+
+  * helyiértékek: 1, 2, 4, 8, 16, 32, 64, …
+
+Példa:
+14 tízesben → binárisan:
+
+* 14 = 8 + 4 + 2
+* 8 → 2³, 4 → 2², 2 → 2¹
+* tehát: **1110₂** (1×8 + 1×4 + 1×2 + 0×1)
+
+6 tízesben:
+
+* 6 = 4 + 2
+* → **110₂** (1×4 + 1×2 + 0×1)
+
+Pythonban:
+
+```python
+bin(14)  # '0b1110'
+bin(6)   # '0b110'
+```
+
+A **`0b`** azt jelzi, hogy bináris számról van szó.
+
+---
+
+# 2. `basicOp()` – alap műveletek és precedencia
+
+```python
+def basicOp():
+    print(2 ** 2 ** 3)
+    print(2 / 4)
+    print(2 // 4)
+    print(5 % 4)
+    print(5 * (25 % 13) + 100)
+    print(2 * 3 % 5)
+    x = 0
+    y = 10
+    print(x < y and y % 2 == 0)
+```
+
+### 2.1. Hatványozás: `2 ** 2 ** 3`
+
+Pythonban a `**` **jobbról balra köt**:
+
+```python
+2 ** 2 ** 3 == 2 ** (2 ** 3)
+```
+
+Számoljuk ki:
+
+* 2 ** 3 = 8
+* 2 ** 8 = 256
+
+Tehát:
+
+```python
+print(2 ** 2 ** 3)  # 256
+```
+
+---
+
+### 2.2. Valós osztás: `/`
+
+```python
+print(2 / 4)  # 0.5
+```
+
+A `/` **mindig floatot ad** (lebegőpontos számot).
+
+---
+
+### 2.3. Egész osztás: `//`
+
+```python
+print(2 // 4)  # 0
+```
+
+A `//` a **maradék nélküli egész rész**:
+
+* 2 / 4 = 0.5 → egész rész = 0
+
+Más példák:
+
+* `7 // 2` → 3 (mert 7 / 2 = 3.5)
+* `9 // 4` → 2 (mert 9 / 4 = 2.25)
+
+---
+
+### 2.4. Maradék: `%`
+
+```python
+print(5 % 4)  # 1
+```
+
+5 / 4 = 1 * 4 + **1** → maradék 1.
+
+Párosság vizsgálata:
+
+* `n % 2 == 0` → páros
+* `n % 2 == 1` → páratlan
+
+---
+
+### 2.5. Vegyes kifejezés: `5 * (25 % 13) + 100`
+
+Lépések:
+
+1. `25 % 13`:
+
+   * 25 = 1×13 + 12 → maradék = 12
+2. `5 * 12 = 60`
+3. `60 + 100 = 160`
+
+```python
+print(5 * (25 % 13) + 100)  # 160
+```
+
+---
+
+### 2.6. Műveleti sorrend: `2 * 3 % 5`
+
+Precedencia (fontos):
+
+1. `**`
+2. `*`, `/`, `//`, `%`
+3. `+`, `-`
+4. bit műveletek
+5. összehasonlítások (`<`, `==`, …)
+6. logikai (`and`, `or`, `not`)
+
+`2 * 3 % 5` → balról jobbra a *és% egy szinten vannak*:
+
+* `2 * 3 = 6`
+* `6 % 5 = 1`
+
+```python
+print(2 * 3 % 5)  # 1
+```
+
+---
+
+### 2.7. Logikai kifejezés: `x < y and y % 2 == 0`
+
+```python
+x = 0
+y = 10
+print(x < y and y % 2 == 0)
+```
+
+Lépések:
+
+1. `x < y` → `0 < 10` → `True`
+2. `y % 2 == 0` → `10 % 2 == 0` → `0 == 0` → `True`
+3. `True and True` → `True`
+
+Kimenet:
+
+```python
+True
+```
+
+---
+
+# 3. `bitwiseOp()` – bites operátorok
+
+```python
+def bitwiseOp():
+    print(bin(14))
+    print(bin(6))
+    print(14 & 6)
+    print(bin(14 & 6))
+    print(14 | 6)
+    print(bin(14 | 6))
+    print(14 ^ 6)
+    print(bin(14 ^ 6))
+    print(~14)
+    print(~-14)
+    print(bin(14 >> 2))
+    print(14 << 2)
+    print(bin(14 << 2))
+```
+
+## 3.1. `bin()` – bináris formátum
+
+```python
+bin(14)  # '0b1110'
+bin(6)   # '0b110'
+```
+
+* 14 → `1110₂`
+* 6 → `110₂`
+
+---
+
+## 3.2. Bitenkénti ÉS: `&`
+
+```python
+14 & 6
+```
+
+Írjuk egymás alá (érdemes azonos bitszámra „feltölteni”):
+
+* 14 = 1110₂
+* 6 = 0110₂   (balról 0-val kiegészítve)
+
+Bitenként:
+
+| bit | 1. szám | 2. szám | `&` |
+| --- | ------- | ------- | --- |
+| 8   | 1       | 0       | 0   |
+| 4   | 1       | 1       | 1   |
+| 2   | 1       | 1       | 1   |
+| 1   | 0       | 0       | 0   |
+
+Eredmény: `0110₂` → 6
+
+```python
+print(14 & 6)           # 6
+print(bin(14 & 6))      # 0b110
+```
+
+---
+
+## 3.3. Bitenkénti VAGY: `|`
+
+```python
+14 | 6
+```
+
+* 14 = 1110₂
+* 6 = 0110₂
+
+Bitenkénti VAGY (OR):
+
+| bit | 1. szám | 2. szám | `|` |
+|-----|--------|---------|-----|
+| 8   | 1      | 0       | 1   |
+| 4   | 1      | 1       | 1   |
+| 2   | 1      | 1       | 1   |
+| 1   | 0      | 0       | 0   |
+
+Eredmény: `1110₂` → 14
+
+```python
+print(14 | 6)           # 14
+print(bin(14 | 6))      # 0b1110
+```
+
+---
+
+## 3.4. Bitenkénti XOR: `^` (kizáró vagy)
+
+A **XOR** akkor 1, ha a két bit *különbözik*.
+
+```python
+14 ^ 6
+```
+
+* 14 = 1110₂
+* 6 = 0110₂
+
+| bit | 1. szám | 2. szám | `^` |
+| --- | ------- | ------- | --- |
+| 8   | 1       | 0       | 1   |
+| 4   | 1       | 1       | 0   |
+| 2   | 1       | 1       | 0   |
+| 1   | 0       | 0       | 0   |
+
+Eredmény: `1000₂` → 8
+
+```python
+print(14 ^ 6)           # 8
+print(bin(14 ^ 6))      # 0b1000
+```
+
+---
+
+## 3.5. Bitenkénti NOT: `~`
+
+Ez Pythonban **kétkomplementes negatív számokra** épül. A szabály:
+
+> `~n == -(n + 1)`
+
+Példák:
+
+```python
+print(~14)   # -(14+1) = -15
+print(~-14)  # -(-14+1) = -(-13) = 13
+```
+
+**Miért ilyen fura?**
+
+A negatív szám ábrázolása (kétkomplement):
+
+* +n binárisát bitenként negáljuk → majd +1-et adunk
+* Python a `~`-ot úgy definiálja, hogy ezzel kompatibilis legyen.
+
+Nem kell mélyen belemenni: elég, ha megjegyezzük a képletet.
+
+---
+
+## 3.6. Biteltolás: `>>` és `<<`
+
+### Jobbra tolás: `>>`
+
+```python
+print(bin(14))      # 0b1110
+print(bin(14 >> 2)) # 0b11
+```
+
+14 = `1110₂`
+Jobbra 2 bittel:
+
+* `1110₂ >> 2` → `11₂` → 3
+
+Általános szabály *pozitív számokra*:
+
+> `n >> k` ≈ `n // (2 ** k)`
+
+pl.:
+14 >> 2 → 14 // 4 = 3
+
+---
+
+### Balra tolás: `<<`
+
+```python
+print(14 << 2)        # 56
+print(bin(14 << 2))   # 0b111000
+```
+
+14 = `1110₂`
+Balra 2 bittel:
+
+* `1110₂ << 2` → `111000₂`
+* `111000₂` = 56
+
+Általános szabály:
+
+> `n << k` ≈ `n * (2 ** k)`
+
+pl.:
+
+* 14 << 1 → 28
+* 14 << 2 → 56
+* 14 << 3 → 112
+
+---
+
+# 4. `comparsion()` – páros-e a szám?
+
+```python
+def comparsion():
+    if 6 % 2 == 0:
+        print("helyes")
+    if 6 & 1 == 0:
+        print("helyes")
+```
+
+### 4.1. Páros vizsgálat `%`-tel
+
+```python
+6 % 2 == 0  # True
+```
+
+Mivel 6 maradéka 2-vel osztva 0 → páros.
+
+---
+
+### 4.2. Páros vizsgálat bitekkel: `n & 1`
+
+```python
+6 & 1 == 0
+```
+
+* 6 = `110₂`
+* 1 = `001₂`
+
+`110₂ & 001₂` → `000₂` → 0
+
+Tehát `6 & 1 == 0` → `True` → páros.
+
+Általános szabály:
+
+* Ha `n & 1 == 0` → **páros**
+* Ha `n & 1 == 1` → **páratlan**
+
+Pl.:
+
+* 7 = `111₂`
+* 1 = `001₂`
+  `7 & 1 = 1` → páratlan
+
+Figyelem: Pythonban a precedencia miatt ez így értelmeződik:
+
+```python
+(6 & 1) == 0
+```
+
+mert `&` erősebb, mint `==`.
+
+---
+
+# 5. `aritmeticTobtw(n)` – szorzás/osztás 2-vel bitekkel
+
+```python
+def aritmeticTobtw(n):
+    n <<= 1
+    print(n)
+
+    n <<= 3
+    print(n)
+
+    n >>= 2
+    print(n)
+
+    if n & 1 == 0:
+        print("páros")
+    else:
+        print("páratlan")
+```
+
+Hívás: `aritmeticTobtw(2)`
+
+### 5.1. `n <<= 1` – szorzás 2-vel
+
+Kezdetben: `n = 2`
+
+* `n <<= 1` → `n = n << 1`
+* 2 = `10₂`
+* `10₂ << 1` → `100₂` → 4
+
+Kimenet:
+
+```python
+4
+```
+
+---
+
+### 5.2. `n <<= 3` – szorzás 8-cal
+
+Most `n = 4`
+
+* `n <<= 3` → `n = n << 3`
+* 4 = `100₂`
+* `100₂ << 3` → `100000₂` = 32
+
+Kimenet:
+
+```python
+32
+```
+
+---
+
+### 5.3. `n >>= 2` – osztás 4-gyel (egész)
+
+Most `n = 32`
+
+* `n >>= 2` → `n = n >> 2`
+* 32 = `100000₂`
+* `100000₂ >> 2` → `1000₂` = 8
+
+Kimenet:
+
+```python
+8
+```
+
+---
+
+### 5.4. Páros-e?
+
+Most `n = 8`:
+
+* 8 = `1000₂`
+* 1 = `0001₂`
+* `8 & 1` → `0000₂` → 0 → páros
+
+Tehát:
+
+```python
+páros
+```
+
+---
+
+# 6. `powerOfTwo(num)` – 2 hatványa-e?
+
+```python
+def powerOfTwo(num):
+    a = num
+    if a > 0 and (a & (a - 1)) == 0:
+        print("%d hatványa a 2-nek" % a)
+    else:
+        print("%d nem hatványa 2-nek" % a)
+```
+
+Ez egy **klasszikus bit trükk**.
+
+### 6.1. Mi a trükk lényege?
+
+Egy **pozitív** szám akkor **2 hatványa**, ha binárisan **pontosan 1 db 1-es bitje van**.
+
+Példa 2 hatványai:
+
+* 1: 0001₂
+* 2: 0010₂
+* 4: 0100₂
+* 8: 1000₂
+* 16: 10000₂
+  → mindegyikben csak egyetlen `1` bit van.
+
+A trükk:
+
+> Ha `a` 2 hatványa, akkor
+> `(a & (a - 1)) == 0`
+
+Nézzük példával.
+
+### 6.2. Példa: `a = 8`
+
+* 8 = `1000₂`
+* 7 = `0111₂`
+* `8 & 7`:
+
+  * `1000₂`
+  * `0111₂`
+  * `0000₂` → 0
+
+Tehát `(8 & 7) == 0` → 8 valóban 2 hatványa.
+
+---
+
+### 6.3. Példa: `a = 6` (nem 2 hatványa)
+
+* 6 = `110₂`
+* 5 = `101₂`
+* `6 & 5`:
+
+  * `110₂`
+  * `101₂`
+  * `100₂` → 4 (nem 0)
+
+Tehát `(6 & 5) != 0` → 6 nem 2 hatványa.
+
+---
+
+### 6.4. A függvény működése
+
+Ha:
+
+* `a > 0` **és**
+* `(a & (a - 1)) == 0`
+
+akkor 2 hatványa.
+
+Példa hívásra:
+
+```python
+powerOfTwo(32)  # 32 hatványa a 2-nek
+powerOfTwo(12)  # 12 nem hatványa 2-nek
+```
+
+---
+
+# 7. `numberSystemSwap()` – számrendszer konvertálás
+
+```python
+def numberSystemSwap():
+    num = int(input("Adjon meg egy konvertálandó számot: "))
+    con = int(input("Mibe konvertáljam: (bin(2), octal(8), hexa(16)"))
+    converted_num = 0
+    if con == 2:
+        converted_num = bin(num).replace("0b", "")
+    elif con == 8:
+        converted_num =  oct(num).replace("0o", "")
+    elif con == 16:
+        converted_num = hex(num).replace("0x", "")
+    else:
+        print("Rossz adat")
+
+    print(converted_num)
+```
+
+### 7.1. Bemenetek
+
+* `num` → a konvertálandó szám (tízes számrendszerben írod be)
+* `con` → a cél számrendszer:
+
+  * 2 → bináris
+  * 8 → oktális
+  * 16 → hexadecimális
+
+### 7.2. Beépített függvények
+
+* `bin(num)` → `'0b101010'` (string, elején `0b`)
+* `oct(num)` → `'0o52'` (oktális)
+* `hex(num)` → `'0x2a'` (hex)
+
+Ezért a `.replace("0b", "")` stb. eltünteti ezeket az előtagokat.
+
+Példa futás:
+
+* `num = 42`
+* `con = 2`
+
+```python
+bin(42)  # '0b101010'
+bin(42).replace("0b", "")  # '101010'
+```
+
+Kimenet:
+
+```text
+101010
+```
+
+---
+
+# 8. Feladat 7 – `a` és `b` bites műveletek
+
+```python
+a = 13  # 1101
+b = 6   # 110
+c = a & b   # 100
+print("Az eredmény: " + str(c))
+
+c = a | b   # 1111
+print("Az eredmény: " + str(c))
+
+c = a ^ b   # 1011
+print("Az eredmény: " + str(c))
+```
+
+Először írjuk fel az értékeket ugyanannyi bittel:
+
+* `a = 13` → `1101₂`
+* `b = 6`  → `0110₂`    (balról 0-val kiegészítve)
+
+### 8.1. `c = a & b`
+
+```
+ 1101
+ 0110
+ ----
+ 0100
+```
+
+`0100₂` = 4
+
+```python
+c = a & b
+print(c)   # 4
+```
+
+---
+
+### 8.2. `c = a | b`
+
+```
+ 1101
+ 0110
+ ----
+ 1111
+```
+
+`1111₂` = 8 + 4 + 2 + 1 = 15
+
+```python
+c = a | b
+print(c)   # 15
+```
+
+---
+
+### 8.3. `c = a ^ b`
+
+```
+ 1101
+ 0110
+ ----
+ 1011
+```
+
+`1011₂` = 8 + 0 + 2 + 1 = 11
+
+```python
+c = a ^ b
+print(c)   # 11
+```
+
+---
+

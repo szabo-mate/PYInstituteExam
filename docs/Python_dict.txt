@@ -1,0 +1,188 @@
+Python Dictionary (Szótár) – Tanulós Jegyzet
+
+1) Mi az a dictionary?
+
+A dictionary (szótár) egy olyan adatszerkezet, ami **kulcs–érték párokat** tárol.
+
+Kulcs (key): amivel hivatkozol az adatra (pl. `"kutya"`)
+Érték (value): amit a kulcshoz tárolsz (pl. `"Bodri"`)
+
+Olyan, mint egy névjegyzék:
+
+ név → telefonszám
+ szó → jelentés
+ állat → becenév
+
+Példa az első órából:
+
+dictionary = {"cica": "Cirmi", "kutya": "Bodri", "papagáj": "Borka"}
+
+---
+
+2) Dictionary létrehozása
+
+ a) Kapcsos zárójellel `{ }`
+
+telszamok = {"Tomi": 701234567, "Geri": 209876543}
+
+
+ Fontos szabályok:
+
+	Kulcs és érték közé kettőspont ":" kerül	
+	Párok közé vessző "," kerül
+	Az egész dictionary kapcsos zárójelben van
+
+ b) Üres dictionary
+
+
+empty_dictionary = dict()
+ vagy
+empty_dictionary = {}
+
+---
+
+3) Adat kiszedése (érték lekérése)
+
+Ha tudod a kulcsot, így kéred le az értéket:
+
+print(dictionary["kutya"])  # Bodri
+
+
+Fontos: ha a kulcs nem létezik, hibát kapsz: KeyError
+
+---
+
+4) Hibakezelés, ha nincs kulcs
+
+A te megoldásod nagyon jó: előbb megnézed, benne van-e.
+
+
+words = ["cica", "kutya", "ló"]
+
+for word in words:
+    if word in dictionary:
+        print(word, " -> ", dictionary[word])
+    else:
+        print(word, " nincs benne a dictionary-ben")
+
+
+if word in dictionary mindig a kulcsokban keres.
+
+---
+
+5) Kulcsok bejárása: keys()
+
+A keys() visszaadja az összes kulcsot.
+
+
+for key in animals.keys():
+    print(key, " -> ", animals[key])
+
+
+ABC-sorrendben:
+
+
+for key in sorted(animals.keys()):
+    print(key, animals[key])
+
+---
+
+6) Kulcs + érték együtt: items()
+
+Az items() kulcs–érték párokat ad vissza, így lehet a legszebben kiírni:
+
+for k, e in animals.items():
+    print(k, " -> ", e)
+
+---
+
+7) Csak értékek: values()
+
+Ha csak az értékek érdekelnek:
+
+for e in animals.values():
+    print(e)
+
+
+---
+
+8) Módosítás és új elem hozzáadás
+
+a) Ha létezik a kulcs → módosít
+
+	animals["ló"] = "Szélvész"
+
+b) Ha nem létezik → hozzáad
+
+	animals["béka"] = "Frog"
+
+c) Több elem hozzáadása: update()
+
+animals.update({"kacsa": "Hápi", "sárkány": "Fogatlan"})
+
+---
+
+9) Törlés
+
+a) del – kulcs alapján
+
+	del animals["sárkány"]
+
+Csak akkor működik, ha a kulcs létezik.
+
+b) popitem() – utolsó elem törlése
+
+	animals.popitem()
+
+Ez az utoljára berakott (legutolsó) kulcs–érték párt szedi ki.
+
+Plusz hasznos: pop(kulcs)
+Ha kulcs alapján akarsz törölni és meg is kapni az értéket:
+
+	ertek = animals.pop("ló")
+
+---
+
+10) Több dictionary összefűzése
+
+update():
+
+dic4 = {}
+for d in (dic1, dic2, dic3):
+    dic4.update(d)
+
+---
+
+11) Bonyolultabb példa: diákok pontjai (tuple-ben)
+
+ students egy dictionary
+ kulcs: diák neve
+ érték: több pontszám (tuple), pl. (10, 15, 20)
+
+Új pont hozzáadása tuple-höz:
+
+python
+students[name] += (score,)
+
+Majd átlag számolás:
+
+ végigmegy a pontokon
+ összeg + darabszám
+ add / counter
+
+Ez jó példa arra, hogy a dictionary nem csak 1 értéket tud tárolni, hanem akár több adatot is (lista/tuple/dict is lehet érték).
+
+---
+
+12) Nagyon fontos szabályok (röviden)
+
+ A kulcs egyedi (nem lehet két ugyanolyan kulcs)
+ A dictionary gyors keresésre (kulccsal pillanatok alatt megvan az érték)
+ Kulcs általában: str, int (olyan legyen, ami nem változik)
+
+---
+
+13) Extra: get() (kulcs hibamentesen)
+
+print(dictionary.get("ló"))          # None, ha nincs ilyen kulcs
+print(dictionary.get("ló", "nincs")) # "nincs", ha nincs
