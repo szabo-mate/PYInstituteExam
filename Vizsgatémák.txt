@@ -1,6 +1,6 @@
 60p 35 kérdés
 Feladat típusok:
-    felelt választós (1 krédés, 4 váalsz lehetőség, 1 jó válasz)
+    felelt választós (1 krédés, 4 válasz lehetőség, 1 jó válasz)
     ugyanez csak több jó válasz lehetőség
     párosító
     Kód kiegészítás
